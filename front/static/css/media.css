@@ -1,0 +1,230 @@
+@media screen and (max-width:1169px) {
+.fix-wrap { padding: 0px 20px; }
+/*** Footer Style here ***/
+.f-logo { width:150px;}
+.get-in-touch { padding:55px 0px 55px 16%;}
+.f-links { padding: 106px 0px 152px 16%; }
+.copyright { padding:15px 0px 15px 16%;}
+/*** Homepage Style here***/
+.hp-strategy ul li .st-title { left:20px; right:20px;}
+.hp-strategy ul li .st-title h3 br { display:none;}
+.hp-recent-news { padding:45px 0px;}
+.news-list ul li { padding:50px;}
+.cmn-pull-top .fix-wrap { margin:-126px 20px 0px; padding:0px;}
+.cmn-pull-top .white-box {padding:70px 50px;}
+.custom-wrap .fix-wrap { margin:-126px auto 0px;}
+/*** Contact page Style here ***/
+.contact-left { padding:78px;}
+/*** Our team page Style here ***/
+.search-field, .title-field { width: 44.5%; }
+.team-list ul li { margin:0px 20px 20px 0px; width:23.47%;}
+.team-img { height:350px;}
+/*** About: Advisors page Style here ***/
+.people-list ul li { margin:0px 20px 20px 0px; padding:50px 30px; width:31.9%;}
+/*** News List page Style here ***/
+.news-grid .featured-news { width:48%;}
+.news-grid .grid-item { padding:30px 25px; }
+}
+
+@media screen and (max-width:1024px) { 
+/*** About page Style here ***/
+.highlight-box .fix-wrap { padding:0px 20px;}
+.about-content { padding:100px 0px;}
+/*** Contact page Style here ***/
+.contact-left { padding:70px;}
+/*** Team Detail page Style here ***/
+.cmn-pull-top.team-detail-wrap .white-box { padding:50px 30px;}
+.team-detail-wrap .seprator { margin:20px 0px;}
+.aie-list { padding:75px 0px 0px;}
+/*** Our team page Style here ***/
+.search-field, .title-field { width: 44.3%; }
+.team-list ul li { width:23.4%;}
+}
+
+@media screen and (max-width:979px) { 
+.logo { max-width:245px;}
+.nav-brand > ul > li > a { padding:0px 10px;}
+.nav-brand > ul > li:hover > a::before, .nav-brand > ul > li.active > a::before { left:8px; right:8px; }
+.nav-brand > ul > li:last-child > a::before { right:0px; }
+/*** Footer Style here***/
+.f-logo { width: 110px; }
+.f-logo a { width:70px; height:66px;}
+.f-links { padding: 106px 0px 135px 16%; }
+.f-links .f-col { width:30%;}
+.copyright { padding: 15px 0px 15px 15%; }
+.copyright .f-left span { margin-right:4px;}
+.copyright .f-left a { padding:0px 4px;}
+/*** Homepage Style here***/
+.hp-banner .imgDiv { height: 550px; }
+.hp-banner .banner-title h1 { font-size:60px; line-height:70px;}
+.hp-strategy ul li .st-title h3 { font-size:24px; line-height:28px; }
+.featured-news { padding:30px 25px; height:420px;}
+.hp-recent-news { padding: 30px 0px; }
+.news-list ul li { padding: 30px 25px; margin:0px 0px 25px; }
+.news-list ul li h3 { font-size:20px; line-height:26px;}
+.cmn-pull-top .white-box { padding:70px 40px;}
+.custom-wrap .fix-wrap { padding:0px 20px;}
+/*** Portfolio page style here ***/
+.cmn-tabs ul li a { padding:28px 0px; font-size:18px;}
+ul.logo-list li a { height:190px;}
+ul.logo-list li a img { max-width:145px; max-height:145px;}
+/*** Contact page Style here ***/
+.contact-wrap { padding:80px 0px 100px;}
+.contact-left { padding:40px 30px;}
+/*** Our team page Style here ***/
+.search-field, .title-field { width: 42.6%; }
+.team-list ul li { width:31.5%;}
+.team-list ul li:nth-child(4n) { margin-right:20px;}
+.team-list ul li:nth-child(3n) { margin-right:0px;}
+/*** About: Advisors page Style here ***/
+.people-list { padding:0px;}
+.people-list ul li { padding:50px 40px; width:48.6%;}
+.people-list ul li:nth-child(3n) { margin-right:20px;}
+.people-list ul li:nth-child(2n) { margin-right:0px;}
+}
+
+@media screen and (max-width:767px) {
+.web-view { display:none;}
+.mob-view { display:block;}
+/*** Header Style here ***/
+.navbar-header { width:100%;}
+.logo { margin:11px 0px; max-width:187px;}
+.navbar-toggle { display:block;}
+.nav-brand {display: none; padding:0px; margin:0px; height: calc(100% - 59px); position:fixed; top:59px; left:0px; right:0px; background:#FFFFFF; overflow:auto;}
+.nav-brand > ul > li { width:100%; text-align:left; border-top: 1px solid #D6D6D6;}
+.nav-brand > ul > li:last-child {border-bottom:1px solid #D6D6D6;}
+.nav-brand > ul > li > a { padding:15px 20px; line-height:21px;}
+.nav-brand > ul > li > a:hover, .nav-brand ul li.active > a, .nav-brand ul li > a.open-subnav { background:#6292B4; color:#FFFFFF;}
+.nav-brand > ul > li > a:hover::before, .nav-brand > ul li.active > a::before { content:normal;}
+.nav-brand > ul > li.nav-search { padding:5px 20px; background:#002B5F;}
+li.nav-search input[type="text"] { top:0px; padding-right: 48px; width: 100%; font-size: 16px; color: #FFF; background:#002B5F; box-sizing: border-box; }
+li.nav-search input[type="text"]:focus, li.nav-search:hover input[type="text"] { width:100%;}
+li.nav-search > form, li.nav-search .search-btn { height:40px;}
+li.nav-search .search-btn { margin:0px; float:right;}
+.nav-brand > ul > li:hover > a::before, .nav-brand > ul > li.active a::before { content:normal; }
+.nav-brand > ul > li.parent > a::after { content:''; margin:auto; width:16px; height:16px; background:url('../images/plus-sign.png') no-repeat 0px 0px; position:absolute; right:20px; top:0px; bottom:0px; }
+.nav-brand > ul > li.parent.active > a:after, .nav-brand > ul > li.parent > a:hover:after {background:url('../images/plus-sign-white.png') no-repeat 0px 0px;}
+.nav-brand > ul > li.parent > a.open-subnav::after {background:url('../images/minus-sign.png') no-repeat 0px 0px;}
+.submenu-wrap { display:none; padding:0px; width:100%; position: relative; top: 100%; left: inherit; opacity: 1; visibility: visible; overflow:visible; transition:none; }
+.submenu-wrap ul { border:none; box-shadow:none;}
+li.has-submenu .submenu-nav { display:none; width:100%; position:relative; left:0px; visibility:visible; opacity:1; overflow:visible; transition:none;}
+li.has-submenu .submenu-nav ul {box-shadow:none;}
+li.has-submenu .submenu-nav ul li a { padding-left:25px; color:#000;}
+li.has-submenu .submenu-nav ul li a:hover { background:none;}
+li.has-submenu.open-second-subnav > a{ color:#FFF; background:#0061af;}
+li.has-submenu.open-second-subnav > a:after { width:14px; height:8px; background:url('../images/nav-arrow-down-white.png') no-repeat 0px 0px;}
+/*** Homepage Style here***/
+.hp-banner .imgDiv { height: 373px; }
+.hp-banner .banner-title h1 { font-size:34px; line-height:30px; }
+.hp-strategy ul li { width:100%;}
+.hp-strategy ul li .st-title { left:48px; right:48px;}
+.hp-strategy ul li .st-title h3{ font-size:26px; line-height:30px;}
+.hp-recent-news .fix-wrap { padding:0px;}
+.hp-recent-news h2 .f-left, .hp-recent-news h2 .f-right { width:100%; padding-left:20px;}
+.hp-recent-news h2 .f-left { margin:0px 0px 20px;}
+.hp-recent-news { padding:30px 0px 70px;}
+.featured-news, .news-list { width:100%;}
+.featured-news { margin:0px 0px 28px; padding:45px 55px;}
+.news-list ul li { padding:55px;}
+.news-list ul li h3 { font-size:22px; line-height:28px; }
+/*** Footer Style here ***/
+footer { min-height:inherit;}
+.f-logo { display:none;}
+footer .fix-wrap { padding:0px;}
+.get-in-touch { padding: 55px 20px; background:#6292B4; }
+.get-in-touch:after, .copyright::after { content:normal;}
+.f-links { padding: 85px 20px; }
+.copyright { padding:20px 20px 0px; border-top:1px solid #95C5E8;}
+.copyright .f-left, .copyright .f-right { margin:0px 0px 30px; width:100%; text-align:center;}
+.cmn-pull-top { padding:0px 0px 50px;}
+.cmn-pull-top .white-box { padding:50px 40px;}
+.sitemap-col, .sitemap-col.strategies-col, .sitemap-col.fix-col { margin:0px 0px 15px; width:100%;}
+/*** About page Style here ***/
+.highlight-box { padding:50px 0px;}
+.about-content { padding:70px 0px 20px;}
+.about-content .f-left, .about-content .f-right { width:100%;}
+.about-content .f-right { margin-top:15px;}
+.section-title { margin:30px 0px 50px;}
+/*** Stretagy Detail page style here ***/
+.left-img, .right-content { width:100%;}
+.right-content { margin-top:30px;}
+/*** Portfolio page style here ***/
+.portfolio-content { padding:0px;}
+.cmn-tabs .fix-wrap { padding:0px;}
+.filter-toggle { display:block;}
+.cmn-tabs ul { display:none;}
+.cmn-tabs ul li { width:100%;}
+.cmn-tabs ul li a { padding:10px 20px; margin-bottom:10px; text-align:left;}
+.cmn-tabs ul li a.active::after, .cmn-tabs ul li a:hover::after { bottom:-10px; }
+ul.logo-list li { width:50%;}
+ul.logo-list li a { height:260px;}
+ul.logo-list li a img { max-width: 180px; max-height: 180px; }
+.portfolio-detail .left-img { padding-top:15px; max-width:280px;}
+/*** Contact page Style here ***/
+.contact-wrap { padding: 40px 0px 20px; } 
+.contact-left { margin:0px auto 40px; width:100%; max-width:568px; float:none;}
+.contact-right { clear:both; width:100%;}
+/*** Team Detail page Style here ***/
+.cmn-pull-top.team-detail-wrap .white-box { padding:50px 40px;}
+/*** Our team page Style here ***/
+.filter-form .form-group { margin:0px 0px 15px; width:100%;}
+.filter-form .inputDiv::after, .filter-form .custom-select-box::before, .filter-form .btn-primary { border-radius:3px;}
+.team-filter { padding:40px 0px 0px;}
+.team-list { padding:50px 0px 0px;}
+.team-list ul li { width:48.2%;}
+.team-list ul li:nth-child(3n) { margin-right:20px;}
+.team-list ul li:nth-child(2n) { margin-right:0px;}
+.team-img { height: 380px; }
+/*** About: Advisors page Style here ***/
+.people-list ul li { padding:45px 30px; width:48.2%;}
+/*** News List page Style here ***/
+.news-grid { padding:20px 0px;}
+.news-grid .featured-news, .news-grid .grid-item { width:100%; padding:45px 55px;}
+}
+
+@media screen and (max-width:599px) { 
+.featured-news { height:519px;}
+/*** Footer Style here ***/
+.f-links .f-col, .f-links .f-col.strategy-col, .f-links .f-col.fix-col { margin:0px 0px 30px; width:100%;}
+.copyright .f-left span { margin:0px 0px 8px; width:100%;}
+.copyright .f-left a { padding:0px 10px;}
+.cmn-pull-top .white-box { padding:20px;}
+.sitemap .white-box { padding:35px 20px;}
+.custom-wrap .white-box{ padding:40px 25px;}
+.cmn-pull-top h2 { font-size:32px; line-height:34px;}
+.page-title .banner-title h1 { font-size:44px; line-height:50px;}
+.cmn-pull-top .right-content h2 { font-size:36px; line-height:44px;}
+/*** Portfolio page style here ***/
+ul.logo-list li a { height: 220px;}
+.cmn-pull-top.team-detail-wrap .white-box { padding:15px;}
+.aie-list { padding:50px 0px 0px;}
+/*** Our team page Style here ***/
+.team-list ul { margin:auto; max-width:280px;}
+.team-list ul li { margin:0px 0px 20px; width:100%;}
+.team-list ul li:nth-child(3n) { margin-right:0px;}
+/*** About: Advisors page Style here ***/
+.people-list ul li { margin:0px 0px 20px; width:100%;}
+.people-list ul li:nth-child(3n) { margin-right:0px;}
+/*** News List page Style here ***/
+.news-grid .featured-news { height:430px;}
+.news-grid .featured-news, .news-grid .grid-item { padding:45px 30px;}
+}
+
+@media screen and (max-width:479px) { 
+.featured-news, .news-list ul li{ padding:40px;}
+.featured-news { padding:48px 40px;}
+.get-in-touch { padding:50px 20px;}
+.get-in-touch h2 span { float:left; max-width:88%;}
+/*** Portfolio page style here ***/
+ul.logo-list li { width:100%;}
+/*** News List page Style here ***/
+.news-grid .featured-news { height:480px;}
+}
+
+@media screen and (max-width:374px) { 
+.hp-strategy ul li .st-title { left:30px; right:30px;}
+.news-list ul li{ padding:45px 30px;}
+.featured-news h3 { font-size:34px; line-height:38px;}
+/*** Contact page Style here ***/
+.contact-left { padding:30px 20px;}
+}

@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'georgia';
+    src: url('../fonts/georgia.eot');
+    src: url('../fonts/georgia.eot') format('embedded-opentype'),
+         url('../fonts/georgia.woff2') format('woff2'),
+         url('../fonts/georgia.woff') format('woff'),
+         url('../fonts/georgia.ttf') format('truetype'),
+         url('../fonts/georgia.svg#georgia') format('svg');
+}
+@font-face {
+    font-family: 'georgiab';
+    src: url('../fonts/georgiab.eot');
+    src: url('../fonts/georgiab.eot') format('embedded-opentype'),
+         url('../fonts/georgiab.woff2') format('woff2'),
+         url('../fonts/georgiab.woff') format('woff'),
+         url('../fonts/georgiab.ttf') format('truetype'),
+         url('../fonts/georgiab.svg#georgiab') format('svg');
+}
