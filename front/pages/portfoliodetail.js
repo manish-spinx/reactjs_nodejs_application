@@ -151,16 +151,7 @@ class Portfoliodetail extends Component
                         <div className="fix-wrap">
                         <a href="#" onClick={this.backurl} className="view-news"><img src="/static/images/back-arrow-2.png" width="7" alt="" /> <span>View all Portfolio</span></a>
                         <div className="white-box portfolio-detail">
-                        <div>
-                            {
-                                previous_label && 
-                                <span className="left-content"><a href="#" onClick={(e) => this.n_and_p_pagination(e, 'p')}>Previous</a></span>
-                            }
-
-                            {
-                                next_label &&
-                                <span className="right-side-link"><a href="#" onClick={(e) => this.n_and_p_pagination(e, 'n')}>Next</a></span>
-                            }
+                        <div>                            
                         </div> 
                             
                         <div className="left-img">
@@ -178,11 +169,22 @@ class Portfoliodetail extends Component
                                 <li><strong>Share:</strong> &nbsp; <a href="#"><img src="/static/images/linkedin-logo.png" width="19" alt="" /></a></li>
                             </ul>
                         </div>
+                        </div>                           
+                        </div>                        
+                        </div>     
+                        <div className="cnextprevious">
+                            {
+                                previous_label && 
+                                <span className="left-content"><a href="#" onClick={(e) => this.n_and_p_pagination(e, 'p')}>Previous</a></span>
+                            }
 
-                        </div>
-                        </div>
-                        </div>
+                            {
+                                next_label &&
+                                <span className="right-side-link"><a href="#" onClick={(e) => this.n_and_p_pagination(e, 'n')}>Next</a></span>
+                            }
+                        </div>                  
                         </section>
+
                     </Layout>
                 }
             </React.Fragment>

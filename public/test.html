@@ -1,0 +1,810 @@
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAi7NgkXRx8AJeywydQ7E_4fRJ0GRp3yOg&libraries=places"></script>
+    <style>
+        /* Common */
+        html{zoom: 0.7;}
+        body {
+            padding: 15px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            text-transform: uppercase;
+        }
+
+        .fa-file {
+            color: #e4502e
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .no-dec-link {
+            text-decoration: none;
+            color: black
+        }
+
+        .pull-right {
+            float: right;
+        }
+
+        th {
+            font-weight: 100;
+            font-size: 15px;
+        }
+
+        td {
+            text-align: center;
+            padding: 10px
+        }
+
+        table {
+            width: 100%
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .logo-area {
+            margin-bottom: 20px;
+        }
+
+        .rexford-logo .logo-mark {
+            fill: #e4502e
+        }
+
+        /* Main page head*/
+        .main-header {
+            height: 450px;
+            position: relative;
+            border: solid 3px #ddd;
+            border-top: 0;
+
+            background: url('https://rexford-industrial.s3.amazonaws.com/jenkins/rexford-com/master/uploads/property/1579204237261-Safari_web9350_2030Lynx.jpg');
+                background-repeat: no-repeat;
+                background-color: #eee;
+                background-position: center;
+
+        }
+
+        .main-header h1 {
+            font-size: 45px;
+        }
+
+        .main-header p {
+            font-size: 25px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .main-header-text * {
+            margin: 0;
+        }
+
+        .main-header-text {
+            border: solid 3px #ddd;
+            padding: 15px;
+        }
+
+        .main-header-text h3 {
+            position: relative;
+            padding-bottom: 8px;
+            margin-bottom: 5px;
+        }
+
+        .main-header-text h3::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            background: #ddd;
+            width: 50px;
+            height: 3px;
+        }
+
+        .main-header-text h1 {
+            font-weight: bold;
+        }
+
+        /* Content */
+        .main-body {
+            border: solid 3px #ddd;
+            border-top: 0;
+            overflow: hidden;
+            clear: both;
+        }
+
+        .main-body .content {
+            padding-left: 15px;
+            padding-right: 15px
+        }
+
+        .main-body .park-description {
+            width: 50%;
+            margin-right: 10%;
+            float: left;
+        }
+
+        .main-body .park-description .detail {
+            width: 50%;
+            float: left;
+        }
+
+        .main-body .park-stats {
+            width: 100%;
+            float: left;
+            border-top: solid 3px #ddd;
+            border-bottom: solid 3px #ddd;
+            padding-top: 20px;
+            position: relative;
+        }
+
+        .main-body .park-stats .detail {
+            width: 50%;
+            float: left;
+        }
+
+        .detail h3,
+        .col-detail h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #777777;
+            margin: 0;
+        }
+
+        .detail p,
+        .col-detail p {
+            margin: 5px 0 20px 0;
+        }
+
+        .main-body .available-spaces {
+            border-bottom: 0;
+            padding-bottom: 20px;
+        }
+
+        .col2::before,
+        .col3::before,
+        .col3::after {
+            content: "";
+            position: absolute;
+            left: 30%;
+            top: 0;
+            background: #ddd;
+            width: 3px;
+            height: 100%;
+        }
+
+        .col3::after {
+            left: 62%;
+        }
+
+        .col2::before {
+            left: 48%;
+        }
+
+        .col {
+            float: left;
+            width: 33%;
+        }
+
+        .pdf-section {
+            overflow: hidden;
+            clear: both;
+        }
+
+        .unit-details {
+            padding: 15px;
+            border-top: solid 3px #ddd;
+        }
+
+        .unit-details .left-text {
+            float: left;
+        }
+
+        .unit-details .logo {
+            float: right;
+        }
+
+        .unit-details h2 {
+            margin-top: 12px;
+            margin-bottom: 5px;
+        }
+
+        .unit-details h4 {
+            margin: 0;
+            color: #aaa
+        }
+
+        .property-map {
+            width: 100%;
+            border-top: solid 3px #ddd;
+            clear: both;
+            display: block;
+            overflow: hidden;
+        }
+
+        .property-map .gmap {
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .logo-area {
+            display: block;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px
+        }
+
+        .main-title {
+            text-align: right;
+            overflow: hidden;
+            color: #777777;
+            border-top: solid 3px #ddd;
+        }
+
+        .main-title strong {
+            font-size: 30px;
+            color: #000;
+        }
+
+        .property-description p {
+            text-transform: none;
+        }
+
+        .space-info {
+            padding-top: 4em
+        }
+    </style>
+</head>
+
+<body>
+    <div class="logo-area">
+        <div class="content logo">
+            <svg viewBox="0 0 660 730" class="rexford-logo" aria-label="Rexford Industrial">
+                <path class="logo-mark" d="M3,2.6v432.1h432.1V2.6H3z M382.1,372.2L306,295.1V55.6h76.1V372.2z M293.3,55.6v235.7H56.1V55.6H293.3z M56.1,304H297
+                    l76.6,77.6H56.1V304z"></path>
+                <path class="logo-text" d="M28,566.8V557l9.6,0c0,0,3.6-0.6,5.5,3.4c3.9,9,8.2,17.8,12.4,26.7c0.5,1.1,1.6,2.9,2.5,2.9c9.1,0.2,18.3,0,28.1,0
+                    c-6.9-14-13.5-27.2-20.1-40.5c0.9-0.7,1.4-1.2,2-1.6c13.4-10.1,17.1-25.1,13.9-40.7c-3.1-15.4-13.3-24.9-28.4-27.7
+                    c-10-1.8-20.7-1.4-30.9-1.7c-7.1-0.2-14.7,0-21.7,0C1,515,1,553,1,590c9,0,19,0,27,0C28,581,28,566.8,28,566.8z M28,501.9
+                    c7-0.1,10.8-0.4,17.7,0c6.7,0.4,10.4,9.2,10.2,16.4c-0.2,7-4.2,12.6-10.6,13.6c-5.5,0.9-10.3,1-17.3,1C28,522.5,28,512,28,501.9z
+                    M498.2,583.4c0.2-0.2,0.7-0.3,0.7-0.3v7c0,0,18,0,26,0c0-37,0-75,0-113c-9,0-16,0-26,0c0,15,0,29.7,0,43.3c0-0.1-0.6,0-0.7-0.2
+                    c-11.5-12.5-33.7-8.1-43.7,4.3c-13.3,16.4-12.7,42.5,1.8,57.7C466.9,593.1,487.3,595.9,498.2,583.4z M486.2,536.2
+                    c8.6,0,14.8,6.6,14.7,15.9c-0.1,9.1-6.5,15.8-15,15.7c-8.7-0.1-15.2-7.1-15.1-16.2C470.9,542.7,477.4,536.2,486.2,536.2z
+                    M342.7,591.7c22.8-0.1,39.9-17.2,39.9-39.7c0-22.3-17.7-39.7-40.1-39.5c-22.8,0.2-39.8,17.2-39.8,39.7
+                    C302.7,574.7,320.1,591.8,342.7,591.7z M342.4,536.4c8.4-0.2,15,6.7,15.1,15.7c0,8.8-6.3,15.5-14.7,15.6
+                    c-8.4,0.1-14.7-6.5-14.8-15.4C327.9,543.3,334,536.6,342.4,536.4z M181.7,719.8c0.1,2.6,0.3,4.2,0.4,7.2c8.8,0,16.8,0,25.8,0
+                    c0-39,0-77,0-115c-10,0-17,0-26,0c0,15,0,29.4,0,43.9c-14-10.5-27.4-11-40.5-1.8c-7.2,5.1-11.7,12.3-14,20.7
+                    c-3.4,12.4-2.4,24.3,3.6,35.8C139.9,727.5,164.6,736.8,181.7,719.8z M167.8,671.9c8.9,0,15.2,6.8,15.1,16.4
+                    c-0.1,9.3-6.7,16.3-15.5,16.1c-9-0.1-15.6-7.3-15.5-16.7C152.1,678.5,158.8,671.9,167.8,671.9z M576.1,728.4
+                    c6.3-0.8,10.9-4.5,15.7-9.2c0.2,3,0.4,4.8,0.6,7.8c8.8,0,17.6,0,27.6,0c0-27,0-53,0-78c-10,0-19,0-27.7,0c-0.1,3-0.3,4.8-0.3,6.2
+                    c-5-4.1-9-5.9-13.8-6.8c-14.2-2.9-26,2-34.5,13.9c-10,13.8-10.6,35.6-1.4,50C550,724.6,561.2,730.3,576.1,728.4z M577.6,671.9
+                    c8.9-0.1,15.4,6.7,15.5,16.1c0,9.3-6.5,16.3-15.3,16.4c-8.9,0.1-15.9-7.2-15.8-16.4C562,678.8,568.6,672,577.6,671.9z M117.4,707
+                    c0.1,6.6,0,12,0,20c-9.1,0-17.5,0-27.5,0c0-3,0-3,0-4.5c0-13.3,0.2-26.7,0.1-40c-0.1-8.8-5.3-13.4-13-11.4c-4.6,1.2-9.9,6.3-9.9,13
+                    c0,12.8-0.2,25.5-0.2,38.3c0,1.6,0,1.8,0,4.8c-9,0-16,0-26,0c0-26,0-53,0-78c8,0,17.3,0,26.2,0c0.1,3,0.2,4.7,0.4,8.1
+                    c7-7.7,16.8-10.5,26.3-9.3c13,1.7,21.9,9.9,22.9,23.2C117.6,683,117.3,695,117.4,707z M246,649c0,1,0,3.5,0,5.1
+                    c0,13.5-0.2,27-0.1,40.4c0.1,8.1,6.4,12.1,13.7,10.9c4.7-0.8,7.6-5.2,7.6-11.8c0.1-13-0.2-26.1-0.2-39.1c0-1.6,0-4.5,0-5.5
+                    c10,0,17,0,26,0c0,25,0,51,0,78c-9,0-16.4,0-25.3,0c-0.1-3-0.2-4.6-0.3-6.1c-4.7,2.4-9.3,6.2-14.4,7.1c-17.5,3.3-32.3-5.7-33.6-23.4
+                    c-1.3-18.3-0.3-37.6-0.3-55.6C227.9,649,236,649,246,649z M389.4,648c0-5,0-31,0.1-36c0.2,0-1.6,0,25.1,0c0,12,0.1,26,0.1,36
+                    c4.9,0,9.3,0,15.3,0c0,7,0,15,0,23c-6,0-10.1,0-14.7,0c0,9,0.1,17.9,0.5,26.3c0.1,1.5,3.2,4,5.1,4.6c2.5,0.9,6,0.7,9,1
+                    c0,8,0,15.2,0,23.6c-11,0.2-19.6,0.9-28.9-4.4c-7.9-4.5-10.4-12.6-11-20.8c-0.5-8-0.5-16.4-0.7-24.4c0-1.7,0-2.9,0-5.9
+                    c-4.5,0-5.5,0-8.5,0c0-8,0-16,0-23C384,648,384.9,648,389.4,648z M28,727c-8,0-17,0-27,0c0-39,0-75,0-115c9,0,19,0,27,0
+                    C28,650,28,688,28,727z M657,727c-8,0-17,0-25,0c0-37,0-77,0-115c8,0,15,0,25,0C657,650,657,690,657,727z M499,649c10,0,17,0,26,0
+                    c0,25,0,52,0,78c-9,0-16,0-26,0C499,701,499,674,499,649z M258,536h-10.4l2.6-22h8.7c0-26,9.4-35,35.8-35h3.2v24.4
+                    c-13,0-14,2.2-14,10v0.6h14v22h-14v54h-26V536z M187.3,552.1l-25-38.1h27.3l13.3,20.1l13.4-20.1h27.3l-25,38.1l25,37.9h-26.2
+                    L203,568.3L188.5,590h-26.2L187.3,552.1z M302.2,703.5l0-1.5h24.3l0.1,1.3c0.6,3.7,5.7,7.1,12,7.1c6.4,0,10.8-2.2,10.8-5.6
+                    c0-2.6-1.7-4.2-11.1-5.7l-10.8-1.8c-15.4-2.5-23.9-10.8-23.9-23.3c0-15.6,13.9-26.1,34.5-26.1c21.7,0,34.8,9.4,34.9,25.1l0,1h-23.6
+                    l0-0.9c-0.1-4-4.5-6.9-10.8-6.9c-5.7,0-9.4,2.1-9.4,5.4c0,2.2,1.3,4.5,10.4,6l11.2,1.8c16.4,2.7,24,10,24,22.9
+                    c0,16.1-14.4,26.5-36.6,26.5C315.3,728.8,302.2,719.2,302.2,703.5z M111.2,589.3c21.7,6.7,49,0.7,53.2-26.3h-25
+                    c-8,11-23.8,8.1-29.3-3.9l-0.6-1.1h55.7c2.1-24-10.2-42.3-30.8-45.9c-22.2-3.9-42.3,7.8-47.5,28.2C81.6,560.9,92,583.4,111.2,589.3z
+                    M125.5,533.1c0.5,0,1,0,1.5,0c6.5,0.1,12.2,2.9,15.6,9.9c-0.3,0-0.5,0-0.8,0c-10.5,0-22,0-32.4,0
+                    C112.7,534,118.4,533.3,125.5,533.1z M415,590c-8,0-16,0-26,0c0-27,0-52,0-76c10,0,18,0,26,0c0,3,0,7.1,0,10.5
+                    c0,0.3,0.3,0.6,0.6,0.9c5.5-9.9,14.4-11.6,23.4-11.3v22.4c-3,0-4.9,0-7.5,0c-12.3,0-16.3,7.2-16.3,19.6c-0.1,9.8-0.2,19.6-0.2,29.5
+                    C415,586.9,415,588,415,590z M464,726c-8,0-14,0-25,0c0-25,0-52,0-77c11,0,17,0,25,0c0,5,0,7.5,0,10.9c0,0.3,1.1,0.6,1.4,0.9
+                    c5.6-10.1,15.6-11.8,24.6-11.5v22.8c-3,0-5.6,0-8.2,0c-12.5,0-17.1,7.3-17.2,19.9c-0.1,10-0.6,20-0.6,30C464,723.4,464,724,464,726z
+                    M525.2,624.9c0,7-5.7,12.7-12.7,12.7c-7,0-12.7-5.7-12.7-12.7c0-7,5.7-12.7,12.7-12.7C519.6,612.2,525.2,617.9,525.2,624.9z"></path>
+            </svg>
+        </div>
+    </div>
+    <div class="main-header-text">
+        <div class="content text-right">
+            <h3 class="office-park-name">
+                Safari Business Center
+            </h3>
+            <h1>
+                2030-2071 Lynx Place (Safari Business Center)
+            </h1>
+            <p>
+                Ontario,
+                CA
+                91761 |
+                Inland Empire West
+            </p>
+            <!-- <h1><i class="fa fa-angle-down" aria-hidden="true"></i></h1> -->
+        </div>
+    </div>
+    <div class="main-header"></div>
+    <div class="main-body">
+        <div class="pdf-section main-title">
+            <div class="content">
+                <h4>LEASE RATE/ TYPE <strong>
+                    $0.90/MG</strong></h4>
+            </div>
+        </div>
+        <div class="pdf-section park-stats col2">
+            <div class="content">
+                <div class="detail property-type">
+                    <h3>Property Type</h3>
+                    <p>
+                        Multi Tenant
+                    </p>
+                </div>
+                <div class="detail total-project-size">
+                    <h3>Total Building Size</h3>
+                    <p>
+                        112,201 SF
+                    </p>
+                </div>
+                <div class="detail region">
+                    <h3>Region</h3>
+                    <p>
+                        Inland Empire
+                    </p>
+                </div>
+                <div class="detail avail-sq-ft">
+                    <h3>Available SF</h3>
+                    <p>
+                        10798
+                    </p>
+                </div>
+                <div class="detail submarket">
+                    <h3>Submarket</h3>
+                    <p>
+                        Inland Empire West
+                    </p>
+                </div>
+                <div class="detail num-of-buildings">
+                    <h3>Number of Buildings</h3>
+                    <p>
+                        16
+                    </p>
+                </div>
+                <div class="detail year-built">
+                    <h3>
+                        Year Built
+
+                        / Renovated
+
+                    </h3>
+                    <p>
+                        1988
+
+                        /1988
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="page-break-before:always;">
+        <!-- content -->
+        <div class="space-info">
+            <div class="main-body">
+
+
+                <!-- Unit section -->
+                <div class="pdf-section unit-details">
+                    <div class="left-text">
+                        <h2 class="property-heading">
+                            Industrial
+                        </h2>
+                        <h4>
+                            Ontario,
+                            CA
+
+                        </h4>
+                    </div>
+                    <div class="logo right-logo">
+                        <svg viewBox="0 0 660 730" class="rexford-logo" aria-label="Rexford Industrial">
+                            <path class="logo-mark" d="M3,2.6v432.1h432.1V2.6H3z M382.1,372.2L306,295.1V55.6h76.1V372.2z M293.3,55.6v235.7H56.1V55.6H293.3z M56.1,304H297
+                                            l76.6,77.6H56.1V304z"></path>
+                            <path class="logo-text" d="M28,566.8V557l9.6,0c0,0,3.6-0.6,5.5,3.4c3.9,9,8.2,17.8,12.4,26.7c0.5,1.1,1.6,2.9,2.5,2.9c9.1,0.2,18.3,0,28.1,0
+                                            c-6.9-14-13.5-27.2-20.1-40.5c0.9-0.7,1.4-1.2,2-1.6c13.4-10.1,17.1-25.1,13.9-40.7c-3.1-15.4-13.3-24.9-28.4-27.7
+                                            c-10-1.8-20.7-1.4-30.9-1.7c-7.1-0.2-14.7,0-21.7,0C1,515,1,553,1,590c9,0,19,0,27,0C28,581,28,566.8,28,566.8z M28,501.9
+                                            c7-0.1,10.8-0.4,17.7,0c6.7,0.4,10.4,9.2,10.2,16.4c-0.2,7-4.2,12.6-10.6,13.6c-5.5,0.9-10.3,1-17.3,1C28,522.5,28,512,28,501.9z
+                                            M498.2,583.4c0.2-0.2,0.7-0.3,0.7-0.3v7c0,0,18,0,26,0c0-37,0-75,0-113c-9,0-16,0-26,0c0,15,0,29.7,0,43.3c0-0.1-0.6,0-0.7-0.2
+                                            c-11.5-12.5-33.7-8.1-43.7,4.3c-13.3,16.4-12.7,42.5,1.8,57.7C466.9,593.1,487.3,595.9,498.2,583.4z M486.2,536.2
+                                            c8.6,0,14.8,6.6,14.7,15.9c-0.1,9.1-6.5,15.8-15,15.7c-8.7-0.1-15.2-7.1-15.1-16.2C470.9,542.7,477.4,536.2,486.2,536.2z
+                                            M342.7,591.7c22.8-0.1,39.9-17.2,39.9-39.7c0-22.3-17.7-39.7-40.1-39.5c-22.8,0.2-39.8,17.2-39.8,39.7
+                                            C302.7,574.7,320.1,591.8,342.7,591.7z M342.4,536.4c8.4-0.2,15,6.7,15.1,15.7c0,8.8-6.3,15.5-14.7,15.6
+                                            c-8.4,0.1-14.7-6.5-14.8-15.4C327.9,543.3,334,536.6,342.4,536.4z M181.7,719.8c0.1,2.6,0.3,4.2,0.4,7.2c8.8,0,16.8,0,25.8,0
+                                            c0-39,0-77,0-115c-10,0-17,0-26,0c0,15,0,29.4,0,43.9c-14-10.5-27.4-11-40.5-1.8c-7.2,5.1-11.7,12.3-14,20.7
+                                            c-3.4,12.4-2.4,24.3,3.6,35.8C139.9,727.5,164.6,736.8,181.7,719.8z M167.8,671.9c8.9,0,15.2,6.8,15.1,16.4
+                                            c-0.1,9.3-6.7,16.3-15.5,16.1c-9-0.1-15.6-7.3-15.5-16.7C152.1,678.5,158.8,671.9,167.8,671.9z M576.1,728.4
+                                            c6.3-0.8,10.9-4.5,15.7-9.2c0.2,3,0.4,4.8,0.6,7.8c8.8,0,17.6,0,27.6,0c0-27,0-53,0-78c-10,0-19,0-27.7,0c-0.1,3-0.3,4.8-0.3,6.2
+                                            c-5-4.1-9-5.9-13.8-6.8c-14.2-2.9-26,2-34.5,13.9c-10,13.8-10.6,35.6-1.4,50C550,724.6,561.2,730.3,576.1,728.4z M577.6,671.9
+                                            c8.9-0.1,15.4,6.7,15.5,16.1c0,9.3-6.5,16.3-15.3,16.4c-8.9,0.1-15.9-7.2-15.8-16.4C562,678.8,568.6,672,577.6,671.9z M117.4,707
+                                            c0.1,6.6,0,12,0,20c-9.1,0-17.5,0-27.5,0c0-3,0-3,0-4.5c0-13.3,0.2-26.7,0.1-40c-0.1-8.8-5.3-13.4-13-11.4c-4.6,1.2-9.9,6.3-9.9,13
+                                            c0,12.8-0.2,25.5-0.2,38.3c0,1.6,0,1.8,0,4.8c-9,0-16,0-26,0c0-26,0-53,0-78c8,0,17.3,0,26.2,0c0.1,3,0.2,4.7,0.4,8.1
+                                            c7-7.7,16.8-10.5,26.3-9.3c13,1.7,21.9,9.9,22.9,23.2C117.6,683,117.3,695,117.4,707z M246,649c0,1,0,3.5,0,5.1
+                                            c0,13.5-0.2,27-0.1,40.4c0.1,8.1,6.4,12.1,13.7,10.9c4.7-0.8,7.6-5.2,7.6-11.8c0.1-13-0.2-26.1-0.2-39.1c0-1.6,0-4.5,0-5.5
+                                            c10,0,17,0,26,0c0,25,0,51,0,78c-9,0-16.4,0-25.3,0c-0.1-3-0.2-4.6-0.3-6.1c-4.7,2.4-9.3,6.2-14.4,7.1c-17.5,3.3-32.3-5.7-33.6-23.4
+                                            c-1.3-18.3-0.3-37.6-0.3-55.6C227.9,649,236,649,246,649z M389.4,648c0-5,0-31,0.1-36c0.2,0-1.6,0,25.1,0c0,12,0.1,26,0.1,36
+                                            c4.9,0,9.3,0,15.3,0c0,7,0,15,0,23c-6,0-10.1,0-14.7,0c0,9,0.1,17.9,0.5,26.3c0.1,1.5,3.2,4,5.1,4.6c2.5,0.9,6,0.7,9,1
+                                            c0,8,0,15.2,0,23.6c-11,0.2-19.6,0.9-28.9-4.4c-7.9-4.5-10.4-12.6-11-20.8c-0.5-8-0.5-16.4-0.7-24.4c0-1.7,0-2.9,0-5.9
+                                            c-4.5,0-5.5,0-8.5,0c0-8,0-16,0-23C384,648,384.9,648,389.4,648z M28,727c-8,0-17,0-27,0c0-39,0-75,0-115c9,0,19,0,27,0
+                                            C28,650,28,688,28,727z M657,727c-8,0-17,0-25,0c0-37,0-77,0-115c8,0,15,0,25,0C657,650,657,690,657,727z M499,649c10,0,17,0,26,0
+                                            c0,25,0,52,0,78c-9,0-16,0-26,0C499,701,499,674,499,649z M258,536h-10.4l2.6-22h8.7c0-26,9.4-35,35.8-35h3.2v24.4
+                                            c-13,0-14,2.2-14,10v0.6h14v22h-14v54h-26V536z M187.3,552.1l-25-38.1h27.3l13.3,20.1l13.4-20.1h27.3l-25,38.1l25,37.9h-26.2
+                                            L203,568.3L188.5,590h-26.2L187.3,552.1z M302.2,703.5l0-1.5h24.3l0.1,1.3c0.6,3.7,5.7,7.1,12,7.1c6.4,0,10.8-2.2,10.8-5.6
+                                            c0-2.6-1.7-4.2-11.1-5.7l-10.8-1.8c-15.4-2.5-23.9-10.8-23.9-23.3c0-15.6,13.9-26.1,34.5-26.1c21.7,0,34.8,9.4,34.9,25.1l0,1h-23.6
+                                            l0-0.9c-0.1-4-4.5-6.9-10.8-6.9c-5.7,0-9.4,2.1-9.4,5.4c0,2.2,1.3,4.5,10.4,6l11.2,1.8c16.4,2.7,24,10,24,22.9
+                                            c0,16.1-14.4,26.5-36.6,26.5C315.3,728.8,302.2,719.2,302.2,703.5z M111.2,589.3c21.7,6.7,49,0.7,53.2-26.3h-25
+                                            c-8,11-23.8,8.1-29.3-3.9l-0.6-1.1h55.7c2.1-24-10.2-42.3-30.8-45.9c-22.2-3.9-42.3,7.8-47.5,28.2C81.6,560.9,92,583.4,111.2,589.3z
+                                            M125.5,533.1c0.5,0,1,0,1.5,0c6.5,0.1,12.2,2.9,15.6,9.9c-0.3,0-0.5,0-0.8,0c-10.5,0-22,0-32.4,0
+                                            C112.7,534,118.4,533.3,125.5,533.1z M415,590c-8,0-16,0-26,0c0-27,0-52,0-76c10,0,18,0,26,0c0,3,0,7.1,0,10.5
+                                            c0,0.3,0.3,0.6,0.6,0.9c5.5-9.9,14.4-11.6,23.4-11.3v22.4c-3,0-4.9,0-7.5,0c-12.3,0-16.3,7.2-16.3,19.6c-0.1,9.8-0.2,19.6-0.2,29.5
+                                            C415,586.9,415,588,415,590z M464,726c-8,0-14,0-25,0c0-25,0-52,0-77c11,0,17,0,25,0c0,5,0,7.5,0,10.9c0,0.3,1.1,0.6,1.4,0.9
+                                            c5.6-10.1,15.6-11.8,24.6-11.5v22.8c-3,0-5.6,0-8.2,0c-12.5,0-17.1,7.3-17.2,19.9c-0.1,10-0.6,20-0.6,30C464,723.4,464,724,464,726z
+                                            M525.2,624.9c0,7-5.7,12.7-12.7,12.7c-7,0-12.7-5.7-12.7-12.7c0-7,5.7-12.7,12.7-12.7C519.6,612.2,525.2,617.9,525.2,624.9z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <!-- Map section -->
+                <div style="clear:both"></div>
+                <div class="property-map">
+                    <div class="gmap" id="map"></div>
+                </div>
+                <div class="pdf-section property-description">
+                    <div class="content">
+                        <h2>
+                            2030-2071 Lynx Place (Safari Business Center)
+                        </h2>
+                        <p>
+                            <p>Multi-tenant business park comprising 16 industrial buildings totaling 1,149,565 square feet, with 92 tenant spaces as large as 36,000 square feet. Features 82 dock high loading positions, 105 grade level loading positions, and 24’-30’ clear height. Built from 1989-1997.</p><p>Offers easy access to the 15, 10, and 60 freeways.</p>
+                        </p>
+                    </div>
+                </div>
+                <div class="pdf-section park-stats available-spaces col3">
+                    <div class="content">
+                        <div class="space-content">
+                            <div class="col">
+                                <div class="col-detail">
+                                    <h3>PROPERTY TYPE</h3>
+                                    <p>
+                                        Multi Tenant
+                                    </p>
+                                </div>
+                                <div class="col-detail">
+                                    <h3>REGION</h3>
+                                    <p>
+                                        Ontario
+                                    </p>
+                                </div>
+                                <div class="col-detail">
+                                    <h3>SUBMARKET</h3>
+                                    <p>
+                                        Inland Empire West
+                                    </p>
+                                </div>
+                                <div class="col-detail">
+                                    <h3>YEAR BUILT/RENOVATED</h3>
+                                    <p>
+                                        1988/1988
+                                    </p>
+                                </div>
+                                <div class="col-detail">
+                                    <h3>LEASE RATE/TYPE</h3>
+                                    <p>
+                                        $0.90/MG
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="col-detail">
+                                    <h3>TOTAL BUILDING SIZE</h3>
+                                    <p>
+                                        133612
+                                    </p>
+                                </div>
+                                <div class="col-detail">
+                                    <h3>AVAILABLE SF</h3>
+                                    <p>
+                                        -
+                                    </p>
+                                </div>
+                                <div class="col-detail">
+                                    <h3>UNIT SF</h3>
+                                    <p>
+                                        10,798
+                                    </p>
+                                </div>
+                                <div class="col-detail">
+                                    <h3>FLOOR PLAN</h3>
+                                    <p>
+
+                                        <a class="no-dec-link" href="https://www.commercialcafe.com/pdfs/42c6670a-f995-428c-80c9-974a1a21c571"
+                                            target="_blank">
+                                            <i class="fa fa-file" aria-hidden="true"></i> Floor Plan
+                                        </a>
+
+
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="col-detail">
+                                    <h3>CLEAR HEIGHT</h3>
+                                    <p>
+                                        -
+                                    </p>
+                                </div>
+                                <div class="col-detail">
+                                    <h3>PARKING</h3>
+                                    <p>
+                                        -
+                                    </p>
+                                </div>
+
+                                <div class="col-detail">
+                                    <h3>DOCK HIGH DOORS</h3>
+                                    <p>
+                                        0
+                                    </p>
+                                </div>
+                                <div class="col-detail">
+                                    <h3>GROUND LEVEL DOORS</h3>
+                                    <p>
+                                        0
+                                    </p>
+                                </div>
+                                <div class="col-detail">
+                                    <h3>SPRINKLERS</h3>
+                                    <p>
+                                        N/A
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var geo = [34.0391987, -117.60722290000001];
+        var gmapStyles = [
+            {
+                elementType: 'geometry',
+                stylers: [
+                    {
+                        color: '#f5f5f5',
+                    },
+                ],
+            },
+            {
+                elementType: 'labels.icon',
+                stylers: [
+                    {
+                        visibility: 'on',
+                    },
+                ],
+            },
+            {
+                elementType: 'labels.text.fill',
+                stylers: [
+                    {
+                        color: '#969696',
+                    },
+                ],
+            },
+            {
+                elementType: 'labels.text.stroke',
+                stylers: [
+                    {
+                        color: '#f5f5f5',
+                    },
+                ],
+            },
+            {
+                featureType: 'administrative.land_parcel',
+                elementType: 'labels.text.fill',
+                stylers: [
+                    {
+                        color: '#bdbdbd',
+                    },
+                ],
+            },
+            {
+                featureType: 'poi',
+                elementType: 'geometry',
+                stylers: [
+                    {
+                        color: '#eeeeee',
+                    },
+                ],
+            },
+            {
+                featureType: 'poi',
+                elementType: 'labels.text.fill',
+                stylers: [
+                    {
+                        color: '#757575',
+                    },
+                ],
+            },
+            {
+                featureType: 'poi.park',
+                elementType: 'geometry',
+                stylers: [
+                    {
+                        color: '#e5e5e5',
+                    },
+                ],
+            },
+            {
+                featureType: 'poi.park',
+                elementType: 'labels.text.fill',
+                stylers: [
+                    {
+                        color: '#9e9e9e',
+                    },
+                ],
+            },
+            {
+                featureType: 'road',
+                elementType: 'geometry',
+                stylers: [
+                    {
+                        color: '#ffffff',
+                    },
+                ],
+            },
+            {
+                featureType: 'road.arterial',
+                elementType: 'labels.text.fill',
+                stylers: [
+                    {
+                        color: '#757575',
+                    },
+                ],
+            },
+            {
+                featureType: 'road.highway',
+                elementType: 'geometry',
+                stylers: [
+                    {
+                        color: '#dadada',
+                    },
+                ],
+            },
+            {
+                featureType: 'road.highway',
+                elementType: 'geometry.fill',
+                stylers: [
+                    {
+                        color: '#8ea962',
+                    },
+                    {
+                        lightness: 15,
+                    },
+                ],
+            },
+            {
+                featureType: 'road.highway',
+                elementType: 'geometry.stroke',
+                stylers: [
+                    {
+                        visibility: 'on',
+                    },
+                ],
+            },
+            {
+                featureType: 'road.highway',
+                elementType: 'labels.text.fill',
+                stylers: [
+                    {
+                        color: '#616161',
+                    },
+                ],
+            },
+            {
+                featureType: 'road.local',
+                elementType: 'labels.text.fill',
+                stylers: [
+                    {
+                        color: '#9e9e9e',
+                    },
+                ],
+            },
+            {
+                featureType: 'transit.line',
+                elementType: 'geometry',
+                stylers: [
+                    {
+                        color: '#e5e5e5',
+                    },
+                ],
+            },
+            {
+                featureType: 'transit.station',
+                elementType: 'geometry',
+                stylers: [
+                    {
+                        color: '#eeeeee',
+                    },
+                ],
+            },
+            {
+                featureType: 'water',
+                elementType: 'geometry',
+                stylers: [
+                    {
+                        color: '#d1e2e6',
+                    },
+                ],
+            },
+            {
+                featureType: 'water',
+                elementType: 'labels.text.fill',
+                stylers: [
+                    {
+                        color: '#9e9e9e',
+                    },
+                ],
+            },
+        ];
+        var center = new google.maps.LatLng(geo[0], geo[1]);
+        var mapOptions = {
+            zoom: 9,
+            disableDefaultUI: true,
+            draggable: false,
+            zoomControl: true,
+            scrollwheel: false,
+            clickableIcons: false,
+            center: center,
+            styles: gmapStyles
+        };
+        var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+        var marker = new google.maps.Marker({
+            position: center,
+            title: '2030-2071 Lynx Place (Safari Business Center)',
+            clickable: false,
+            map: map
+        });
+
+        var bounds = new google.maps.LatLngBounds();
+        bounds.extend(marker.position);
+
+        var fitBoundsExecuted = false;
+        google.maps.event.addListener(map, 'idle', function () {
+            if (!fitBoundsExecuted) { return }
+            fitBoundsExecuted = false;
+            setTimeout(function () {
+                console.log('mapReady')
+            }, 1)
+        });
+        map.fitBounds(bounds);
+        fitBoundsExecuted = true;
+
+        var zoomChangeBoundsListener = google.maps.event.addListenerOnce(map, 'bounds_changed', function (event) {
+            if (this.getZoom()) {
+                this.setZoom(13);
+            }
+        });
+
+        setTimeout(function () { google.maps.event.removeListener(zoomChangeBoundsListener) }, 2000);
+    </script>
+</body>
+
+</html>

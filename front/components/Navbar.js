@@ -167,7 +167,7 @@ class Navbar extends Component
                                                 <ul>
                                                     <li><Link href="/editprofile" as="/Editprofile"><a>Edit Profile</a></Link></li>
                                                     <li><Link href="/changepassword" as="/Changepassword"><a>Change Password</a></Link></li>                                                    
-                                                    <li><a onClick={this.logout_frontend_side}>Logout</a></li>
+                                                    <li><a href="#" onClick={this.logout_frontend_side}>Logout</a></li>
                                                 </ul>
                                             </div>
                                         </li>
@@ -213,7 +213,7 @@ class Navbar extends Component
                                                 <ul>
                                                     <li><Link href="/editprofile" as="/Editprofile"><a>Edit Profile</a></Link></li>
                                                     <li><Link href="/changepassword" as="/Changepassword"><a>Change Password</a></Link></li>                                                    
-                                                    <li><a onClick={this.logout_frontend_side}>Logout</a></li>
+                                                    <li><a href="#" onClick={this.logout_frontend_side}>Logout</a></li>
                                                 </ul>
                                             </div>
                                         </li>

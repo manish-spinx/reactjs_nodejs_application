@@ -14,6 +14,12 @@ export function FRONT_RESET_PASSWORD_URL()
       return 'http://localhost:3010/Resetpassword/';//process.env.FRONT_RESET_PASSWORD_LINK;
 }
 
+export function PORTFOLIO_LOGO_URL() 
+{
+      return process.env.PORTFOLIO_LOGOO; 
+      //PORTFOLIO_LOGOO=http://localhost:3005/uploads/portfolio_logo/
+}
+
 export function simple_header() 
 {
       // consider as 0 flag

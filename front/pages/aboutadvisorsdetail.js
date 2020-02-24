@@ -195,20 +195,22 @@ class Aboutadvisorsdetail extends Component
                 <section className="cmn-pull-top custom-wrap advisory-detail">
                     <div className="fix-wrap">
                     <a href="#" onClick={this.backurl} className="view-news"><img src="/static/images/back-arrow-2.png" width="7" alt="" /> <span>View all Advisors</span></a>
-                    <div className="white-box">
-                    {
-                        previous_label &&
-                        <span className="left-content"><a href="#" onClick={(e) => this.n_and_p_pagination(e, 'p')}>Previous</a></span>   
-                    }
-
-                    {
-                        next_label &&
-                        <span className="right-side-link"><a href="#" onClick={(e) => this.n_and_p_pagination(e, 'n')}>Next</a></span>
-                    }
+                    <div className="white-box">                   
                         <h2>{name}</h2>
                         <h6>{job_title_other}</h6>
                           {ReactHtmlParser(bio)}
-                        </div>
+                         <div className="cnextprevious maxwidthmd">
+                        {
+                            previous_label &&
+                            <span className="left-content"><a href="#" onClick={(e) => this.n_and_p_pagination(e, 'p')}>Previous</a></span>   
+                        }
+
+                        {
+                            next_label &&
+                            <span className="right-side-link"><a href="#" onClick={(e) => this.n_and_p_pagination(e, 'n')}>Next</a></span>
+                        }
+                    </div>
+                    </div>
                     </div>
                 </section>
 

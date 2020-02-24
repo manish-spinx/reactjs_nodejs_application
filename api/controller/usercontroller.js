@@ -25,6 +25,7 @@ import Common from '../../services/common_function';
 
 // Load Model Schema Dependencies
 import UserSchema from "../models/User";
+import UserangularSchema from "../models/Userangular";
 import JobtitleSchema from "../models/Jobtitle";
 import ArticlesSchema from "../models/Articles";
 import StrategiesSchema from "../models/Strategies";
@@ -42,8 +43,52 @@ const PORTFOLIO_PORT_PATH = './public/uploads/portfolio_logo/';
 const PEOPLE_PIC_PATH = './public/uploads/people/';
 
 
+//const sftcpconnect  = require('ssh2-sftp-client');
+var PromiseFtp = require('promise-ftp');
+const ftp = new PromiseFtp();
+var pdf = require('html-pdf');
+
+
 var usercontroller = {
 
+html_to_pdf:function(req,res,next)
+{
+
+    var html = fs.readFileSync('./public/test.html', 'utf8');
+    var options = { format: 'Letter' };
+    
+    pdf.create(html, options).toFile('./public/test1.pdf', function(err, res) {
+    if (err) return console.log(err);
+    console.log(res); // { filename: '/app/businesscard.pdf' }
+    });
+
+
+},
+chk_ftp_working:function(req,res,next)
+{
+    console.log('-----------1------');
+
+    ftp.connect({
+        host: '67.192.19.25',
+        user: 'rexford',
+        password: 'rExfO2D!N#',
+        secure: true,
+        secureOptions: {'rejectUnauthorized': false}
+      }).then(() => {
+
+        console.log('-----------2------');
+
+        return ftp.list('/');
+      }).then(data => {
+        console.log('-----------3------');
+        console.log(data, 'the data info');
+      }).catch(err => {
+        console.log('-----------4------');
+        console.log(err, 'catch error');
+      });
+
+
+},
 login : function(req, res, next)
 { 
     async.waterfall([
@@ -141,6 +186,105 @@ login : function(req, res, next)
         }
         return res.status(200).json(response);   
     }); 
+
+},
+login_angular:function(req, res, next)
+{
+    async.waterfall([
+        function(nextCall) { // check required parameters
+
+            req.checkBody('email', 'Email is required').notEmpty(); // Name is required
+            req.checkBody('password', 'Password is required').notEmpty(); // password is required
+
+            if(req.body.email!='')
+            {
+                req.checkBody('email', 'Email is not a valid').isEmail();
+            }
+            
+            var error = req.validationErrors();
+            if (error && error.length) 
+            {
+                return nextCall({ message: error});
+            }                
+            nextCall(null, req.body);
+        },
+        function (body, nextCall) 
+        {
+            var check_password = md5(body.password);
+            UserangularSchema.find({ 'email':body.email,'password': check_password}, function (err, user) {
+                    
+                if (err) {
+                    return nextCall({ "message": err });
+                }
+                if (user.length > 0) {
+
+                    if(user[0].status=='0')
+                    {
+                       return nextCall({ "status": 200, "message": "Your Account has been disabled" });
+                    }
+                    else{
+                      nextCall(null, user[0]);    
+                    }
+                    
+                } else {
+                    return nextCall({ "status": 200, "message": "This email and password doesn't match." });
+                }
+
+            });
+        },
+        function(user, nextCall) {
+
+            var jwtData = {
+                _id: user._id,
+                email: user.email,
+                timestamp:DS.now()
+            };
+
+            // create a token
+            const access_token = jwt.sign(jwtData, config.secret, {
+                expiresIn: 60 * 60 * 24 // expires in 24 hours
+            });
+
+            UserangularSchema.findOneAndUpdate({ "_id": user._id }, { $set: { "access_token": access_token } }, function (error, results) {
+                    if (error) {
+                        console.log('LOGIN DEVICE TOKEN UPDATE ERROR:', error);
+                    }
+
+                    var data = {
+                                '_id': results._id,
+                                'name': results.name,
+                                'mobile': results.mobile,
+                                'email': results.email,
+                                'created_at': results.created_at,
+                                'updated_at': results.updated_at,
+                                'access_token': access_token,
+                            }
+
+                    if(results.profile_image!='')
+                    {
+                        data.profile_image_link = config.appHost_view_user_image+results.profile_image;
+                    }
+                    else{
+                        data.profile_image_link = '';
+                    }   
+                    nextCall(null, data);
+                });
+        },
+        function(body, nextCall) {
+            nextCall(null, {
+                status: 1,
+                message: 'Login successfully',
+                data: body
+            });
+        }
+    ], function(err, response) {
+        if (err) 
+        {
+            console.log('Login Error', err);
+            return res.status(202).json({ success: '0', message: err,data:{}});   
+        }
+        return res.status(200).json(response);   
+    });
 
 },
 add_user : function(req, res, next)
@@ -281,6 +425,143 @@ add_user : function(req, res, next)
         })
 
 },
+add_user_angular:function(req, res, next)
+{  
+   async.waterfall([
+    function (nextCall) 
+    {
+            var form = new multiparty.Form();
+            form.parse(req, function(err, fields, files) 
+            {  
+                fields = fields || [];
+
+                for (var key in fields) {
+                    if (fields[key].length === 1) {
+                        fields[key] = fields[key][0];
+                    }
+                }
+
+                req.body = fields;
+                req.files = files;
+
+                req.checkBody('email', 'Email is required').notEmpty(); // Name is required
+
+                if(req.body.email!='')
+                {
+                    req.checkBody('email', 'Email is not a valid').isEmail();
+                }
+                
+                var error = req.validationErrors();
+                if (error && error.length) 
+                {
+                    return nextCall({ message: error});
+                }                
+                nextCall(null, req.body,req.files);
+                
+            });
+    },
+    function(new_array,files_array,nextCall)
+    {
+        const obj = {"email":new_array.email}
+        UserangularSchema.find(obj).exec(function (err, result) 
+        {
+            if (err) {
+                return nextCall({ "message": err });
+            }
+
+             if(!Common.check_obj_empty(result))
+             {
+                    nextCall({ message: 'This Email Id Already Exists.' });
+             }
+             else{
+                   nextCall(null,new_array,files_array);
+             }
+        });
+
+    },
+    function(new_array,files_array,nextCall)
+    { 
+        var update_record = {};
+
+            if(!Common.check_obj_empty(files_array))
+            {
+                _.map(files_array['user_profile'],function (val, key) 
+                {
+                    Uploaded.uploadFile(val,USER_PIC_PATH,function(err,res)
+                    {
+                        if(err)
+                        {
+                            console.log('--------error--------');
+                            console.log(err);
+                        }  
+                        else{
+                            update_record.image = res.filename;
+                            nextCall(null, new_array,update_record);
+                        }
+                });
+
+                });
+            }
+            else{
+                    update_record.image = '';
+                    nextCall(null, new_array,update_record);
+            }            
+    },
+    function(new_array,update_record,nextCall)
+    {  
+        var postData = {
+                    'email':new_array.email,
+                    'name':new_array.name,
+                    'password':new_array.password,
+                    'mobile': new_array.mobile,   
+                    'profile_image': update_record.image,
+                    'dateofjoin':new_array.dateofjoin,
+                    'address':new_array.address,
+                    'company_name':new_array.company_name,
+                    'gender':new_array.gender,
+                    'country':new_array.country,      
+                    'ckeditor_info':new_array.ckeditor_info,  
+                    'status':'1'            
+            };
+
+             if(new_array.edu_list!=='undefined')
+             {
+                postData.edu_list = JSON.parse(new_array.edu_list);
+             }
+
+             if(new_array.team!=='undefined')
+             {
+                postData.team = JSON.parse(new_array.team);
+             }
+
+            var user = new UserangularSchema(postData);
+            user.save(function (error, res) {
+                    if(error)
+                    {
+                            console.log('--------error------');
+                            console.log(error);
+                    }
+                    else{
+                        nextCall(null, {
+                            status: 1,
+                            message: 'User added successfully.',
+                            data: res
+                        });
+                    }
+                    
+                });
+    }      
+],
+    function (err, response) {
+        if (err) {
+            return res.status(202).json({ success: '0', message: err,data:{}});   
+        }
+
+        return res.status(200).json(response);    
+    })
+
+
+},
 edit_user : function(req, res, next){
 
     async.waterfall([
@@ -347,6 +628,78 @@ edit_user : function(req, res, next){
         }
         return res.status(200).json({success: '1',message:'User Listing',data:response});
     });
+
+},
+edit_user_angular : function(req,res,next)
+{
+
+    async.waterfall([
+        function (nextCall) { // check required parameters
+
+            req.checkBody('user_id', 'User id is required.').notEmpty();
+
+            var error = req.validationErrors();
+            if (error && error.length) {
+                return nextCall({ message: error[0].msg });
+            }
+            nextCall(null, req.body);
+        },
+        function (body, nextCall) {
+
+            const user_idd = body.user_id;
+            UserangularSchema.find({ '_id': user_idd }, function (err, results) 
+            {
+                    if (err) 
+                    {
+                        nextCall({ message: 'Something went wrong.' });
+                    }
+                    else{
+                    
+                            if(Common.check_obj_empty(results))
+                            {
+                                return nextCall({ message: 'User id is wrong.' });
+                            } 
+                            else{
+
+                                const user_details = results[0];
+                                var custom_obj = {};
+
+                                custom_obj.email = user_details.email;
+                                custom_obj.name = user_details.name;
+                                custom_obj.mobile = user_details.mobile;
+                                custom_obj.profile_image = user_details.profile_image;
+
+                                if(user_details.profile_image!='')
+                                {
+                                    custom_obj.profile_image_link = config.appHost_view_user_image+user_details.profile_image;
+                                }
+                                else{
+                                    custom_obj.profile_image_link = '';
+                                }
+                                
+                                custom_obj.dateofjoin = user_details.dateofjoin;
+                                custom_obj.address = user_details.address;
+                                custom_obj.company_name = user_details.company_name;
+                                custom_obj.gender = user_details.gender;
+                                custom_obj.country = user_details.country;
+                                custom_obj.edu_list = user_details.edu_list;
+                                custom_obj.team = user_details.team;
+                                custom_obj._id = user_details._id;
+                                custom_obj.status = user_details.status;
+
+                                custom_obj.ckeditor_info = user_details.ckeditor_info;
+                                return nextCall(null,custom_obj);
+                            }
+                    }
+            });
+        },
+    ], function (err, response) {
+        if (err) {
+            return res.status(202).json({ status: '0', message: err,data:{}});   
+        }
+        return res.status(200).json({status:'1',message:'User Details',data:response});
+    });
+
 
 },
 update_user : function(req, res, next)
@@ -514,6 +867,225 @@ update_user : function(req, res, next)
 
         })
             
+},
+update_user_angular:function(req, res, next)
+{
+
+    async.waterfall([
+        function (nextCall) 
+        {
+                var form = new multiparty.Form();
+                form.parse(req, function(err, fields, files) 
+                {  
+                    fields = fields || [];
+
+                    for (var key in fields) {
+                        if (fields[key].length === 1) {
+                            fields[key] = fields[key][0];
+                        }
+                    }
+                        req.body = fields;
+                        req.files = files;
+
+                        req.checkBody('email', 'Email is required').notEmpty(); // Name is required
+
+                        if(req.body.email!='')
+                        {
+                            req.checkBody('email', 'Email is not a valid').isEmail();
+                        }
+                        
+                        var error = req.validationErrors();
+                        if (error && error.length) 
+                        {
+                            return nextCall({ message: error});
+                        }                
+                        nextCall(null, req.body,req.files);
+
+                });
+        },
+        function(new_array,files_array,nextCall)
+        {
+                let email = new_array.email;
+
+                var aggregateQuery = [];
+                //Stage 1
+                aggregateQuery.push({
+                    $match: {
+                        _id: {$ne: mongoose.Types.ObjectId(new_array.user_id)},
+                        email:email
+                    }
+                });
+
+                //Stage 2
+                aggregateQuery.push({
+                    $project: { 
+                        "_id":"$_id",
+                        "name":"$name",
+                        "email":"$email",
+                    }
+                });
+
+                UserangularSchema.aggregate(aggregateQuery, function (err, result) 
+                    {
+                        if (err) 
+                        {
+                            console.error(err);
+                        }
+                        else{
+
+                                  if(!Common.check_obj_empty(result))
+                                  {
+                                     nextCall({ message: 'This Email Id Already Exists.' });
+                                  }
+                                  else{
+                                        nextCall(null,new_array,files_array);
+                                  }
+                        }                            
+                    });  
+
+        } ,
+        function(new_array,files_array,nextCall)
+        { 
+            var update_record = {}; 
+            //if(!isEmpty(req.files))
+            if(!Common.check_obj_empty(files_array))
+            {
+                _.map(files_array['user_profile'],function (val, key) 
+                {
+
+                    Uploaded.uploadFile(val,USER_PIC_PATH,function(err,res)
+                    {
+                        if(err)
+                        {
+                            console.log('--------error--------');
+                            console.log(err);
+                        }  
+                        else{
+                            update_record.image = res.filename;
+                            nextCall(null, new_array,update_record);
+                        }
+                   });
+    
+                });
+
+            }
+            else{
+                    update_record.image = new_array.existing_image;
+                    nextCall(null, new_array,update_record);
+                }
+            
+        },
+        function(new_array,update_record,nextCall)
+        {   
+            const update_user_id = new_array.user_id;
+
+            var postData = {
+                    'email':new_array.email,
+                    'name':new_array.name,
+                    'mobile': new_array.mobile,   
+                    'profile_image': update_record.image,
+                    'dateofjoin':new_array.dateofjoin,
+                    'address':new_array.address,
+                    'company_name':new_array.company_name,
+                    'gender':new_array.gender,
+                    'country':new_array.country,      
+                    'ckeditor_info':new_array.ckeditor_info,              
+                };
+
+            if(new_array.edu_list!=='undefined')
+            {
+                postData.edu_list = JSON.parse(new_array.edu_list);
+            }
+
+            if(new_array.team!=='undefined')
+            {
+                postData.team = JSON.parse(new_array.team);
+            }
+                
+            UserangularSchema.findOneAndUpdate(
+                    { 
+                        "_id": update_user_id
+                    }, 
+                    { 
+                        $set: postData 
+                    }, 
+                    function (error, results) 
+                    {
+                        if (error) {
+                            console.log(error);
+                        }
+                        else{
+
+                            // Remove Old Image
+                            //if(!isEmpty(req.files))
+                            if(!Common.check_obj_empty(req.files))
+                            {
+                                const file_delete_path_user = USER_PIC_PATH+new_array.existing_image;
+                                Uploaded.remove(file_delete_path_user);  
+                            }
+
+                            nextCall(null, {
+                                    status: 1,
+                                    message: 'User Updated successfully.',
+                                    data: results
+                                });
+                        }
+                });
+        }      
+    ],
+        function (err, response) 
+        {
+                if (err) {
+                    return res.status(202).json({ success: '0', message: err,data:{}});   
+                }
+                return res.status(200).json(response); 
+
+        })
+
+
+},
+angular_profile_update:function(req, res, next)
+{
+    async.waterfall([
+        function (nextCall) { // check required parameters
+
+            req.checkBody('email', 'Email id is required.').notEmpty();
+            req.checkBody('user_id', 'User id is required.').notEmpty();
+
+            var error = req.validationErrors();
+            if (error && error.length) {
+                return nextCall({ message: error});
+            }
+
+            nextCall(null, req.body);
+        },
+        function(body, nextCall) {
+
+            var postdata = {
+                'email': body.email,
+                'name':body.name,
+            }
+
+            UserangularSchema.findOneAndUpdate({ "_id": body.user_id }, { $set: postdata }, function (error, results) {
+                if (error) {
+                    nextCall({ message: 'Something went wrong.' });
+                } else {
+                    nextCall(null, {
+                        status: 200,
+                        message: 'User Profile update successfully.',
+                        data:{}
+                    });
+                }
+            });
+        }
+    ], function (err, response) {
+        if (err) {
+            return res.status(202).json({ success: '0', message: err,data:{}});   
+        }
+        return res.status(200).json({ success: '1',data:response});    
+    });
+
+
 },
 change_password : function(req,res,next)
 {
@@ -830,6 +1402,180 @@ list_users_pagination : function(req,res,next)
             return res.status(200).json(response);   
         }) 
 },
+list_users_angular:function(req,res,next)
+{
+    async.waterfall([
+        function (nextCall) 
+        {
+                var query1 = {};
+                var query = {};
+                if (req.body.type !== 'all') 
+                {
+                    var query = {
+                        order: [],
+                        offset: req.body.offset ? req.body.offset : 0,
+                        limit: req.body.limit ? req.body.limit : config.LimitPerPage
+                    };
+                } else {
+                    var query = {
+                        order: []
+                    };
+                }
+
+                /*check for sorting data */
+                if (req.body.sort && _.keys(req.body.sort).length > 0) 
+                {
+                    var sortValues = _.values(req.body.sort);
+                    var sortField = _.values(req.body.sort)[0].split('.');
+                    if (sortField.length > 1) {
+                    } else {
+                        query.order.push([sortValues[0], (sortValues[1]=='asc')?1:-1])
+                    }
+                } 
+                else 
+                {
+                    query.order.push(['_id', -1])
+                }
+
+                var aggregateQuery = [];
+
+                if (req.body.filter && _.keys(req.body.filter).length > 0) 
+                {
+                    _.map(req.body.filter, function (val, key) 
+                    {
+                        if (key === 'name') 
+                        {
+                            query1["name"] = { $regex: val, $options: 'i' }
+                            aggregateQuery.push({
+                                $match: {
+                                    "name": { $regex: val, $options: 'i' }
+                                }
+                            });
+                        }
+
+                        if (key === 'email') 
+                        {
+                            query1["email"] = { $regex: val, $options: 'i' }
+                            aggregateQuery.push({
+                                $match: {
+                                    "email": { $regex: val, $options: 'i' }
+                                }
+                            });
+                        }
+
+                    });
+                }
+
+                aggregateQuery.push({
+                    $project: { 
+                        "_id":"$_id",
+                        "name":"$name",
+                        "mobile":"$mobile",
+                        "email":"$email",
+                        "status":"$status",                                
+                        "created_at":"$created_at",
+                        "updated_at":"$updated_at",
+                        "profile_image":"$profile_image",
+                        "profile_image_name":"$profile_image",
+                    }
+                });
+                
+                 // Stage 4
+                 aggregateQuery.push({
+                    $sort: {
+                       [query.order[0][0]]: query.order[0][1], 
+                       }
+               });
+
+
+                // aggregateQuery.push({
+                //      $sort: {
+                //         updated_at: -1, 
+                //         }
+                // });
+
+                //Stage 5
+                aggregateQuery.push({
+                    $skip: Number(query.offset)
+                });
+               
+                 // Stage 6
+                 aggregateQuery.push({
+                    $limit: Number(query.limit)
+                });
+                
+                UserangularSchema.aggregate(aggregateQuery, function (err, result) 
+                    {
+                        if (err) 
+                        {
+                            console.error(err);
+                        }
+                        else{
+                             var body = {};
+                             body.rows = result;
+                             nextCall(null, body,aggregateQuery,query1)
+                        }                            
+                    });
+
+        },
+        function (body, query2,search_query,nextCall) {
+            UserangularSchema.count(search_query, function (err, counts) {
+                var returnData = {
+                    count: counts,
+                    rows: body.rows
+                }
+                nextCall(null, returnData);
+            });
+        }
+    ],
+        function (err, response) {
+            if (err) {
+                return res.status(202).json({ success: '0', message: err,data:{}});   
+            }
+            return res.status(200).json({status: 200,message: 'User Listing',data: response}); 
+
+        })
+
+},
+delete_user_angular:function(req,res,next)
+{
+    async.waterfall([
+        function (nextCall) {
+            req.checkBody('user_id', 'User_id is required').notEmpty();
+
+            var error = req.validationErrors();
+                if (error) 
+                {
+                    return nextCall({ message: error});
+                }
+
+                nextCall(null, req.body);
+        },
+        function (body, nextCall) {
+            UserangularSchema.remove({ _id: body.user_id }, function (err, userDetail) 
+            {
+                if (err) {
+                    nextCall({ message: 'Something went wrong.' });
+                }
+                else{
+                    nextCall(null, {
+                        status: 200,
+                        message: 'User Delete Successfully.',
+                        data: {}
+                    });
+                }
+            });
+        }
+    ],
+        function (err, response) {
+            if (err) 
+            {
+                return res.status(202).json({ success: '0', message: err,data:{}});   
+            }
+
+            return res.status(200).json(response);   
+        });
+},
 delete_user : function(req,res,next)
 {
     async.waterfall([
@@ -868,6 +1614,48 @@ delete_user : function(req,res,next)
 
             return res.status(200).json(response);   
         });
+
+},
+update_status_user_angular:function(req,res,next)
+{
+    async.waterfall([
+        function (nextCall) { 
+
+            req.checkBody('user_id', 'User Id is required.').notEmpty();
+
+            var error = req.validationErrors();
+            if (error && error.length) {
+                return nextCall({ message: error[0].msg });
+            }
+            nextCall(null, req.body);
+        },
+        function (body, nextCall) {
+
+            var postdata = {
+                'status': body.value
+            }
+              var _id = body.user_id;
+
+              UserangularSchema.findOneAndUpdate({ "_id": _id }, { $set: postdata }, function (error, results) {
+                if (error) {
+                    nextCall({ message: 'Something went wrong.' });
+                } else {
+                    nextCall(null, {
+                        status: 200,
+                        message: 'User status update successfully.',
+                        // data: results
+                    });
+                }
+            });
+        }
+    ], function (err, response) {
+        if (err) 
+        {
+            return res.status(202).json({ success: '0', message: err,data:{}});   
+        }
+
+        return res.status(200).json(response);   
+    });
 
 
 },
@@ -1731,6 +2519,95 @@ delete_bulk_images_record(body)
                 }
             });
       }
+},
+bulk_action_update_angular:function(req,res,next)
+{
+
+    let schema_define = UserangularSchema;
+    let delete_messsage = 'Bulk User delete record succesfully.';
+    let successfully_message = (req.body.bulk_type=='1')?'Bulk User Active record succesfully.':'Bulk User Inactive record succesfully.';
+
+    async.waterfall([
+        function(nextCall) { 
+
+                 var bulk_ids = [];
+
+               _.map(req.body.user_ids,function (val, key) 
+                {
+                    bulk_ids.push(val); 
+                });               
+                nextCall(null, req.body,bulk_ids);
+            },
+            function (body,bulk_ids, nextCall) {
+                   
+                if(body.bulk_type=="3")
+                    {
+                        schema_define.deleteMany(
+                            { _id: 
+                                    { 
+                                        $in: bulk_ids
+                                    } 
+                            },
+                            function (err, multi_record) {
+                                
+                                   if(err)
+                                   {
+                                      return nextCall({ "message": err });
+                                   }
+
+                                    nextCall(null, {
+                                        status: 200,
+                                        message: delete_messsage,//'Bulk Job Title delete record succesfully.',
+                                        data: {}
+                                    });
+            
+                            });
+
+                    }
+                    else{
+                           
+                        // where in condition
+                        schema_define.update(
+                            { _id: 
+                                    { 
+                                        $in: bulk_ids
+                                    } 
+                            },
+                            { 
+                                $set: 
+                                    { 
+                                        status : body.bulk_type
+                                    } 
+                            },
+                            {
+                                multi: true
+                            }
+                            ,function (err, multi_record) {
+                                
+                                   if(err)
+                                   {
+                                       return nextCall({ "message": err });
+                                   }
+                                    
+                                    nextCall(null, {
+                                        status: 200,
+                                        message: successfully_message,
+                                        data: {}
+                                    });
+            
+                            });
+                    }
+            }
+        ], function(err, response) {
+            if (err) {
+            return res.status(202).json({ success: '0', message: err,data:{}});   
+            }
+
+            return res.status(200).json(response);   
+        });
+
+
+
 },
 bulk_action_update:function(req,res,next)
 {

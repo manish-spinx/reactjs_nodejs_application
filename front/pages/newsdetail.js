@@ -194,8 +194,12 @@ class Newsdetail extends Component
                 <section className="cmn-pull-top custom-wrap">
                 <div className="fix-wrap">
                 <a href="#" onClick={this.backurl} className="view-news"><img src="/static/images/back-arrow-2.png" width="7" alt="" /> <span>View all News</span></a>
-                <div className="white-box">
-                    {
+                <div className="white-box" style={{"position": "relative"}}>
+                   
+                <h2>{title}</h2>
+                  {ReactHtmlParser(content)}
+                  <div className="pcssvan">
+                  {
                         previous_label &&
                         <span className="left-content"><a href="#" onClick={(e) => this.n_and_p_pagination(e, 'p')}>Previous</a></span>   
                     }
@@ -204,10 +208,9 @@ class Newsdetail extends Component
                         next_label &&
                         <span className="right-side-link"><a href="#" onClick={(e) => this.n_and_p_pagination(e, 'n')}>Next</a></span>
                     }
-                <h2>{title}</h2>
-                  {ReactHtmlParser(content)}
-
                 </div>
+                </div>
+                
                 </div>
                 </section>
 

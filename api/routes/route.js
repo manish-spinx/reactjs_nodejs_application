@@ -10,11 +10,36 @@ const router = express.Router();
 /* route information */
 
 /********start***************Admin Panel Routes****************************************/
+
+
+router.post('/chk_ftp_working',usercontroller.chk_ftp_working);
+
+
+router.post('/html_to_pdf',usercontroller.html_to_pdf);
+
 router.post('/login',usercontroller.login); 
+
+/*=============================Angular====Section==========================================*/
+
+router.post('/login_angular',usercontroller.login_angular); 
+router.post('/add_user_angular',usercontroller.add_user_angular);
+router.post('/edit_user_angular',usercontroller.edit_user_angular);
+router.post('/update_user_angular',usercontroller.update_user_angular);
+router.post('/list_users_angular',usercontroller.list_users_angular);
+router.post('/delete_user_angular',usercontroller.delete_user_angular);
+router.post('/update_status_user_angular',usercontroller.update_status_user_angular);
+router.post('/bulk_action_update_angular',usercontroller.bulk_action_update_angular);
+router.post('/angular_profile_update',usercontroller.angular_profile_update);
+
+
+/*=============================Angular====Section==========================================*/
+
+
+
+
 router.post('/forget_password',usercontroller.forget_password);
 router.post('/reset_password_update',usercontroller.reset_password_update);
 router.post('/reset_pwd_link_check',usercontroller.reset_pwd_link_check);
-
 
 router.post('/add_user',verifyToken,verifyUser,usercontroller.add_user);
 router.post('/edit_user',verifyToken,verifyUser,usercontroller.edit_user);
@@ -26,7 +51,6 @@ router.post('/change_password',verifyToken,verifyUser,usercontroller.change_pass
 router.post('/list_users_pagination',verifyToken,verifyUser,usercontroller.list_users_pagination);
 // update status only
 router.post('/update_status_user',verifyToken,verifyUser,usercontroller.update_status_user);
-
 
 
 //test_user

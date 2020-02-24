@@ -175,7 +175,8 @@ keyPress(e){
                 <span className="validation-error">{this.state.passwordError}</span>
                 <span className="validation-error">{this.state.username_and_password}</span>
                 <br/>
-                <button className="btn btn-success btn-block" type="button" onClick={this.submitForm}><i className="fas fa-sign-in-alt"></i> Sign in</button>
+                <button className="btn btn-primary btn-block" 
+                type="button" onClick={this.submitForm}><i className="fas fa-sign-in-alt"></i> Sign in</button>
                 <a href="#" id="forgot_pswd" onClick={this.forget_password_link}>Forgot password?</a>
                 <hr/>
                 

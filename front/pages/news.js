@@ -153,7 +153,7 @@ export default class News extends Component
                     
                     <section className="clearfix news-grid">
                     <div className="fix-wrap">
-                    <div className="grid" id="NewsGrid">
+                    <div className="grid clearfix" id="NewsGrid">
                         {
                             loading_flag &&
                             <DualRing />
@@ -162,7 +162,7 @@ export default class News extends Component
                     {
                         api_data.map((item, key) =>{
 
-                            return <div className="grid-item" key={item._id}>
+                            return <div className="grid-item" style={{"margin":"10px 8px"}} key={item._id}>
                                 <div className="post-date">{moment(item.dateofarticle).format("MMM DD, YYYY")}</div>
                                     <h3>
                                     <a href="#" onClick={this.newdetail} id={item.slug} >{item.title}</a>
@@ -173,19 +173,23 @@ export default class News extends Component
                     }
 
                     </div>
+                    {
+                        api_data.length>0 &&
+                         <div>
+                        <Pagination
+                                activePage={this.state.activePage}
+                                itemsCountPerPage={4}
+                                totalItemsCount={32}
+                                pageRangeDisplayed={5}
+                                onChange={this.handlePageChange}
+                        />
+                        </div>
+                    }
                     </div>
+                   
                     </section>               
                 </Layout>     
-                 {
-                     api_data.length>0 &&
-                     <Pagination
-                            activePage={this.state.activePage}
-                            itemsCountPerPage={4}
-                            totalItemsCount={32}
-                            pageRangeDisplayed={5}
-                            onChange={this.handlePageChange}
-                    />
-                 }
+                 
             </div>
         </React.Fragment>  
             

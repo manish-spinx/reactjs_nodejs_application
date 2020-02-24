@@ -888,7 +888,6 @@ front_update_profile:function(req,res,next)
                     $match: {
                         _id: {$ne: mongoose.Types.ObjectId(req.body.user_id)},
                         email:email
-
                     }
                 });
 
@@ -949,7 +948,7 @@ front_update_profile:function(req,res,next)
                             nextCall(null, {
                                     status: 1,
                                     message: 'User Updated successfully.',
-                                    data: results
+                                    data: {'_id':update_user_id,'name':body.name,'email':body.email}
                                 });
                         }
                 });

@@ -39,6 +39,11 @@
 /*** Our team page Style here ***/
 .search-field, .title-field { width: 44.3%; }
 .team-list ul li { width:23.4%;}
+.maxwidthmd{
+    bottom: 12%;
+    padding: 0px 20px;
+}
+
 }
 
 @media screen and (max-width:979px) { 
@@ -54,6 +59,9 @@
 .copyright { padding: 15px 0px 15px 15%; }
 .copyright .f-left span { margin-right:4px;}
 .copyright .f-left a { padding:0px 4px;}
+.news-grid .grid-item{
+    width: 46%;
+}
 /*** Homepage Style here***/
 .hp-banner .imgDiv { height: 550px; }
 .hp-banner .banner-title h1 { font-size:60px; line-height:70px;}
@@ -89,6 +97,9 @@ ul.logo-list li a img { max-width:145px; max-height:145px;}
 /*** Header Style here ***/
 .navbar-header { width:100%;}
 .logo { margin:11px 0px; max-width:187px;}
+.news-grid .grid-item{
+    margin: 10px auto !important;
+}
 .navbar-toggle { display:block;}
 .nav-brand {display: none; padding:0px; margin:0px; height: calc(100% - 59px); position:fixed; top:59px; left:0px; right:0px; background:#FFFFFF; overflow:auto;}
 .nav-brand > ul > li { width:100%; text-align:left; border-top: 1px solid #D6D6D6;}
@@ -125,6 +136,10 @@ li.has-submenu.open-second-subnav > a:after { width:14px; height:8px; background
 .hp-recent-news { padding:30px 0px 70px;}
 .featured-news, .news-list { width:100%;}
 .featured-news { margin:0px 0px 28px; padding:45px 55px;}
+.maxwidthmd{
+    bottom: 5%;
+    padding: 0px 30px;
+}
 .news-list ul li { padding:55px;}
 .news-list ul li h3 { font-size:22px; line-height:28px; }
 /*** Footer Style here ***/

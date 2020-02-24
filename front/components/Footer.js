@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import axios from 'axios'; 
 import localStorage from "localStorage";
-
 import {FETCH_NODE_API_URL} from './ServerApi';
+import { Router } from '../routes';
 
 export default class Footer extends Component 
 {
@@ -43,6 +43,12 @@ export default class Footer extends Component
     {
         e.preventDefault();    
     }
+
+    main_page(e)
+    {
+        e.preventDefault();    
+        Router.pushRoute('/').then(() => window.scrollTo(0, 0));
+    }
     
     render() {
 
@@ -51,12 +57,12 @@ export default class Footer extends Component
         return (
         <footer style={{"backgroundImage":"url(/static/images/footerbg.jpg)"}}>
             <div className="f-logo">
-                <a href="#"><img src="/static/images/f-logo.png" alt=""/></a>
+                <a href="#" onClick={this.main_page}><img src="/static/images/f-logo.png" alt=""/></a>
             </div>
             <div className="clearfix fix-wrap">
                 <div className="get-in-touch">
                     <h2><span>Get in touch with us</span>
-                        <div className="f-right"><a href="#"><img src="/static/images/arrowfooter.png" width="27" alt=""/></a></div>
+                        <div className="f-right"><a href="#" onClick={this.main_page}><img src="/static/images/arrowfooter.png" width="27" alt=""/></a></div>
                     </h2>
                 </div>
                 <div className="f-links">

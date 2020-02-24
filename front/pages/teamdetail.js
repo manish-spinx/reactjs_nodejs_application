@@ -4,10 +4,10 @@ import { Router } from '../routes';
 import ReactHtmlParser from 'react-html-parser';
 import Layout from '../components/Layout';
 import localStorage from "localStorage";
-import {FETCH_NODE_API_URL} from '../components/ServerApi';
+import {FETCH_NODE_API_URL,PORTFOLIO_LOGO_URL} from '../components/ServerApi';
 import Hocnextpre from '../components/Hocnextpre';
 import FadeIn from 'react-fade-in';
-const server_link = process.env.PORTFOLIO_LOGOO; 
+const server_link = PORTFOLIO_LOGO_URL();//process.env.PORTFOLIO_LOGOO; 
 
 class Teamdetail extends Component 
 {
@@ -223,16 +223,7 @@ class Teamdetail extends Component
                 <section className="cmn-pull-top team-detail-wrap">
                 <div className="fix-wrap">
                 <a href="#" onClick={this.backurl} className="view-news"><img src="/static/images/back-arrow-2.png" width="7" alt="" /> <span>View all Team</span></a>                
-                <div className="white-box">
-                    {
-                            previous_label &&
-                            <span className="left-content"><a href="#" onClick={(e) => this.n_and_p_pagination(e, 'p')}>Previous</a></span>   
-                    }
-
-                    {
-                        next_label &&
-                        <span className="right-side-link"><a href="#" onClick={(e) => this.n_and_p_pagination(e, 'n')}>Next</a></span>
-                    }
+                <div className="white-box">                   
                 <div className="left-img">
                 <img src={profile_image_link} alt="" />
                 </div>
@@ -243,26 +234,36 @@ class Teamdetail extends Component
                 {ReactHtmlParser(bio)}
                 </div>
 
-                {
-                    portfolio_slider.length>0 &&
-                    <div className="aie-list">
-                        <h3>Aurora Investment Execution</h3>
-                            <ul className="cmn-list logo-list">
+                    {
+                        portfolio_slider.length>0 &&
+                        <div className="aie-list">
+                            <h3>Aurora Investment Execution</h3>
+                                <ul className="cmn-list logo-list">
 
-                                {
-                                    portfolio_slider.map((item, key) =>{    
-                                        return  <FadeIn delay={300} transitionDuration={500} key={item._id}><li key={item._id}><a href="#" onClick={this.detail_page}><img src={server_link+item.logo_image} alt={item.title} /></a></li></FadeIn>
+                                    {
+                                        portfolio_slider.map((item, key) =>{    
+                                            return  <FadeIn delay={300} transitionDuration={500} key={item._id}><li key={item._id}><a href="#" onClick={this.detail_page}><img src={server_link+item.logo_image} alt={item.title} /></a></li></FadeIn>
 
-                                    })
-                                }
+                                        })
+                                    }
 
-                            </ul>
-                    </div>
+                                </ul>
+                        </div>
 
-                } 
-                
+                    }                 
 
                 </div>
+                    <div className="cnextprevious">
+                    {
+                            previous_label &&
+                            <span className="left-content"><a href="#" onClick={(e) => this.n_and_p_pagination(e, 'p')}>Previous</a></span>   
+                    }
+
+                    {
+                        next_label &&
+                        <span className="right-side-link"><a href="#" onClick={(e) => this.n_and_p_pagination(e, 'n')}>Next</a></span>
+                    }
+                    </div>
                 </div>
                 </section>
 
